@@ -2,15 +2,18 @@ const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 
-const { users, candidates, vacancies } = require('./models');
+require('dotenv').config();
 
-mongoose.connect('mongodb://root:password@localhost:27017', {
+const { users, candidates, vacancies } = require('./models');
+const { DB_HOST, DB_USER, DB_PASS, DB_PORT, DB_NAME } = process.env;
+
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}`, {
     useNewUrlParser: true, useUnifiedTopology: true,
-    dbName: 'njobs'
+    dbName: `${DB_NAME}`
 });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'Connection error: '));
 
 const app = express();
 const port = 8080;
