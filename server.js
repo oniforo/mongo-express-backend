@@ -38,7 +38,7 @@ app.get('/vacancies', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const results = await users.find(req.body);
-    results[0] ? res.status(200).send() : res.status(401).send()
+    results[0] ? res.status(200).send(results) : res.status(204).send()
 });
 
 app.listen(port, () => {
