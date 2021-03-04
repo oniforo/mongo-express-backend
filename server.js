@@ -5,11 +5,10 @@ const cors = require('cors');
 require('dotenv').config();
 
 const { users, candidates, vacancies } = require('./models');
-const { DB_HOST, DB_USER, DB_PASS, DB_PORT, DB_NAME } = process.env;
 
-mongoose.connect(`mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}`, {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true, useUnifiedTopology: true,
-    dbName: `${DB_NAME}`
+    dbName: process.env.DB_NAME
 });
 
 const db = mongoose.connection;
@@ -41,6 +40,6 @@ app.post('/login', async (req, res) => {
     results[0] ? res.status(200).send(results) : res.status(204).send()
 });
 
-app.listen(port, () => {
-    console.log(`nJobs backend is listening on port ${port}`)
+app.listen(process.env.PORT || 8080, () => {
+    console.log('nJobs backend is up and running')
 });
